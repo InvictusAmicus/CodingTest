@@ -1,0 +1,36 @@
+Requirements for Events.txt
+
+The first integer value in the text file states how many events there are in the file, followed by a comma.
+Each event has 3 integer values representing each event's data.
+These values are for its id, x position and y position respectively.
+These should be separated by a comma, as should each event itself.
+
+
+Requirements for Ticket.txt
+
+The first integer value in the text file states how many tickets there are in the file, followed by a comma.
+Each ticket has two values, one integer and one float value.
+These represent the Event id that they are tied to and the price of the ticket respectively.
+These values should be separated with a comma, as should the tickets themselves.
+
+      Both of these text files must be in the same directory as the project.
+
+How to run 
+
+Place the four java files in the default package of an Eclipse project.
+Add the strings "events.txt" and "tickets.txt" as arguments in the Run Configuration for the Main class.
+The SeedDataGenerator can be run separately from the Main class to generate sample text files.
+Run the main class and input values as shown.
+
+Assumptions I made
+
+1) Users are unable to make invalid inputs.
+2) The program will not need to be scaled up to show a longer list of events close to your area.
+
+How to support multiple events at one co-ordinate
+
+Remove the for loop in isLocationFree(int x, int y).
+
+How to support larger a larger world size
+
+Split the data into groups using a quadtree and only check certain groups depending on the location chosen by the user.
