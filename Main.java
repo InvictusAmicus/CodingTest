@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class Main
 {
-	private static Event[] e = new Event[10];
-	private static Ticket[] t = new Ticket[15];
+	private static Event[] e;// = new Event[10];
+	private static Ticket[] t;// = new Ticket[15];
 	
 	public static void main(String [] args)
 	{
@@ -33,7 +33,7 @@ public class Main
 		
 		int xPos = Integer.parseInt(x);
 		int yPos = Integer.parseInt(y);
-		int[] distances = new int[10];
+		int[] distances = new int[e.length];
 		int[] closestEvents = {1,-1,-1,-1,-1};
 		
 		for(int i = 0; i < e.length; i++)
@@ -198,6 +198,8 @@ public class Main
 		{
 			FileReader eReader = new FileReader(eventsFile);
 			FileReader tReader = new FileReader(ticketsFile);
+			
+			
 			boolean eof = false;
 			String data = "";
 			int check = 0;
@@ -205,6 +207,8 @@ public class Main
 			
 			int eventId = 0, xPos = 0, yPos = 0;
 			float price = 0.0f;
+			
+			boolean numOfEventsFound = false, numOfTicketsFound = false;
 			
 			while(!eof)
 			{
@@ -214,27 +218,39 @@ public class Main
 				{
 					if(character != ',')
 					{
-						data += character;
+							data += character;
 					}
 					else
 					{
-						if(check == 0)
+						if(numOfEventsFound)
 						{
-							eventId = Integer.parseInt(data);
+							if(check == 0)
+							{
+								eventId = Integer.parseInt(data);
+							}
+							if(check == 1)
+							{
+								xPos = Integer.parseInt(data);
+							}
+							if(check == 2)
+							{
+								yPos = Integer.parseInt(data);
+								e[count] = new Event(eventId, xPos, yPos);
+								count++;
+							}
+							
+							check++;
+							check%=3;
+							
+							data = "";
 						}
-						if(check == 1)
-							xPos = Integer.parseInt(data);
-						if(check == 2)
+						else
 						{
-							yPos = Integer.parseInt(data);
-							e[count] = new Event(eventId, xPos, yPos);
-							count++;
+							e = new Event[Integer.parseInt(data)];
+							System.out.println("Event count:" + e.length);
+							numOfEventsFound = true;
+							data = "";
 						}
-						
-						check++;
-						check%=3;
-						
-						data = "";
 					}
 				}
 				else
@@ -257,25 +273,34 @@ public class Main
 				{
 					if(character != ',')
 					{
-						data += character;
+							data += character;
 					}
 					else
 					{
-						if(check == 0)
+						if(numOfTicketsFound)
 						{
-							eventId = Integer.parseInt(data);
+							if(check == 0)
+							{
+								eventId = Integer.parseInt(data);
+							}
+							if(check == 1)
+							{
+								price = Float.parseFloat(data);
+								t[count] = new Ticket(eventId, price);
+								count++;
+							}
+							
+							check++;
+							check%=2;
+							
+							data = "";
 						}
-						if(check == 1)
+						else
 						{
-							price = Float.parseFloat(data);
-							t[count] = new Ticket(eventId, price);
-							count++;
+							t = new Ticket[Integer.parseInt(data)];
+							numOfTicketsFound = true;
+							data = "";
 						}
-						
-						check++;
-						check%=2;
-						
-						data = "";
 					}
 				}
 				else
